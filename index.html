@@ -1,0 +1,158 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</head>
+<body class="container text-white d-flex align-items-center mb-3" style="height: 100vh; background-image: url(https://i.pinimg.com/564x/81/5e/90/815e9077d8196b265cfd4868d3584aef.jpg); background-size: cover;">
+<div class="bg-dark p-5 rounded" style="width: 100%">
+    <form action="http://localhost:8000/submit" method="POST" onsubmit="return storeFormData()">
+
+        <div class="row">
+            <label for="name" class="col-4">Name:</label>
+            <input class="col-3" id="name" type="text" name="name" placeholder="Enter your name">
+            <span id="nameError" class="col-5" style="color: red"></span>
+        </div>
+
+        <div class="row mt-2">
+            <label for="rollnumber" class="col-4">Roll number:</label>
+            <input class="col-3" id="rollnumber" type="text" name="rollnumber" placeholder="Enter your roll number">
+            <span id="rollnumberError" class="col-5" style="color: red"></span>
+        </div>
+
+        <div class="row mt-2">
+            <label for="email" class="col-4">Email:</label>
+            <input class="col-3" id="email" type="text" name="email" placeholder="Enter your email">
+            <span id="emailError" class="col-5" style="color: red"></span>
+        </div>
+
+        <div class="row mt-2">
+            <label for="department" class="col-4">Departmen:</label>
+            <select id="department" name="department" class="col-3">
+                <option value="NULL">Select</option>
+                <option value="Computer science and engineering">Computer science and engineering</option>
+                <option value="Information technology">Information technology</option>
+            </select>
+            <span id="departmentError" class="col-5" style="color: red"></span>
+        </div>
+
+
+        <div class="row mt-2">
+            <label for="gender" class="col-4">Gender:</label>
+            <div id="gender" class="col-3">
+                <div class="row">
+                    <div class="col-6">
+                        <input type="radio" name="gender" id="gender1" value="Male">
+                        <label for="gender1">Male</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="radio" name="gender" id="gender2" value="Female">
+                        <label for="gender2">Female</label>
+                    </div>
+                </div>
+            </div>
+            <span id="genderError" class="col-5" style="color: red"></span>
+        </div>
+        <input type="Submit" value="Add" id="submit" class="btn btn-primary col-2 mt-2">
+    </form>
+    <div class="row">
+        <div class="col-1">
+            <form action="https://google.com">
+                <input type="submit" class="btn btn-danger" value="View" />
+            </form>
+        </div>
+        <div class="col-1">
+            <form action="https://google.com">
+                <input type="submit" class="btn btn-danger" value="Delete" />
+            </form>
+        </div>
+        <div class="col-1">
+            <form action="https://google.com">
+                <input type="submit" class="btn btn-danger" value="Update" />
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var dictArray = localStorage.getItem('todo') ? JSON.parse(localStorage.getItem('todo')) : [];
+    function storeFormData(){
+        var name = document.getElementById('name1').value;
+        var rollNumber = document.getElementById('rollnumber').value;
+        var email = document.getElementById('email').value;
+        var department = document.getElementById('department').value;
+        var genderElements = document.getElementsByName('gender');
+        var gender = null;
+
+        for (var i = 0; i < genderElements.length; i++) {
+            if (genderElements[i].checked) {
+                gender = genderElements[i].value;
+                break;
+            }
+        }
+
+        var formData = {};
+        formData['name'] = name || "";
+        formData['rollNumber'] = rollNumber || "";
+        formData['email'] = email || "";
+        formData['department'] = department || "";
+        formData['gender'] = gender || "";
+
+        dictArray.push(formData);
+        let storingDict = JSON.stringify(dictArray);
+        localStorage.setItem('todo',storingDict);
+        console.log(dictArray);
+        return validateForm();
+    }
+
+    function validateForm() {
+        var name = document.getElementById('name1').value;
+        var rollNumber = document.getElementById('rollnumber').value;
+        var email = document.getElementById('email').value;
+        var department = document.getElementById('department').value;
+        var gender = document.querySelector('input[name="gender"]:checked');
+
+        var isValid = true;
+
+        if (name.trim() === "") {
+            document.getElementById('nameError').innerText = "Name is required";
+            isValid = false;
+        } else {
+            document.getElementById('nameError').innerText = "";
+        }
+
+        if (rollNumber.trim() === "") {
+            document.getElementById('rollnumberError').innerText = "Roll number is required";
+            isValid = false;
+        } else {
+            document.getElementById('rollnumberError').innerText = "";
+        }
+
+        if (email.trim() === "") {
+            document.getElementById('emailError').innerText = "Email is required";
+            isValid = false;
+        } else {
+            document.getElementById('emailError').innerText = "";
+        }
+
+        if (department === "NULL") {
+            document.getElementById('departmentError').innerText = "Please select a department";
+            isValid = false;
+        } else {
+            document.getElementById('departmentError').innerText = "";
+        }
+
+        if (!gender) {
+            document.getElementById('genderError').innerText = "Please select your gender";
+            isValid = false;
+        } else {
+            document.getElementById('genderError').innerText = "";
+        }
+
+        return isValid;
+    }
+
+
+</script>
+</body>
+</html>
