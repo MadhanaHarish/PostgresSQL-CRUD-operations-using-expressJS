@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<h1>Student Details</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Roll Number</th>
+        <th>Email</th>
+        <th>Department</th>
+    </tr>
+    </thead>
+    <tbody id="student-table-body">
+    <!-- Data will be inserted here -->
+    </tbody>
+</table>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const response = await fetch('/students');
+            const students = await response.json();
+            const tableBody = document.getElementById('student-table-body');
+
+            students.forEach(student => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+            <td>${student.name}</td>
+            <td>${student.rollnumber}</td>
+            <td>${student.email}</td>
+            <td>${student.department}</td>
+          `;
+                tableBody.appendChild(row);
+            });
+        } catch (err) {
+            console.error('Error fetching student data:', err);
+        }
+    });
+</script>
+</body>
+</html>
