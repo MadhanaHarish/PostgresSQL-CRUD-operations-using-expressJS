@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details Deletion</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body class="container">
+<h1>Student Details</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Roll Number</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody id="student-table-body">
+    <!-- Data will be inserted here -->
+    </tbody>
+</table>
+<button class="btn btn-danger mt-2 " id="back">Back</button>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const response = await fetch('/students');
+            const students = await response.json();
+            const tableBody = document.getElementById('student-table-body');
+
+            students.forEach(student => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td>${student.name}</td>
+                <td>${student.rollnumber}</td>
+                <td>${student.email}</td>
+                <td>${student.department}</td>
+                <td>
+                    <button onclick="updateButton('${student.rollnumber}')" class="btn btn-danger">Update</button>
+                </td>
+            `;
+                tableBody.appendChild(row);
+            });
+        } catch (err) {
+            console.error('Error fetching student data:', err);
+        }
+    });
+
+    function updateButton(rollNumber) {
+        console.log(rollNumber);
+        window.location.href = `http://localhost:8000/updateForm/${rollNumber}`;
+    }
+
+    document.getElementById('back').addEventListener('click', () => {
+        window.location.href = 'http://localhost:8000';
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Student</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container">
+<div class="container mt-5">
+    <h1 class="text-center">Update Student</h1>
+    <form id="updateForm" method="post" action="/updateElement/<%= student.rollnumber %>">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" value="<%= student.name %>" required>
+        </div>
+        <div class="form-group">
+            <label for="rollnumber">Roll Number:</label>
+            <input type="text" class="form-control" id="rollnumber" name="rollnumber" value="<%= student.rollnumber %>" readonly>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" value="<%= student.email %>" required>
+        </div>
+        <div class="form-group">
+            <label for="department">Department:</label>
+            <input type="text" class="form-control" id="department" name="department" value="<%= student.department %>" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+<button class="btn btn-dange mt-2r" id="back">Back</button>
+<script>
+    document.getElementById('back').addEventListener('click', () => {
+        window.location.href = 'http://localhost:8000';
+    });
+</script>
+</body>
+</html>
